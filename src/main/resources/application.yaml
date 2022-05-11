@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: server-specification
+  datasource:
+    #url: jdbc:postgresql://localhost:5432/server?currentSchema=specification
+    url: jdbc:postgresql://postgres-server:5432/server?currentSchema=specification
+    username: postgres
+    password: qwerty
+    driver-class-name: org.postgresql.Driver
+
+
+logging:
+  level:
+    org.zalando.logbook: TRACE
+
+springdoc:
+  swagger-ui:
+    path: /
+
+logbook:
+  strategy: default
+  exclude:
+    - /swagger-ui/**
+    - /v3/api-docs/**
+  format:
+    style: json
+  headers:
+    enabled: false

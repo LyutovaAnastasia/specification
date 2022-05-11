@@ -1,0 +1,308 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://192.168.99.100:8080
+  description: Generated server url
+paths:
+  /api/type:
+    get:
+      tags:
+      - type-controller
+      operationId: getAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeDto'
+    put:
+      tags:
+      - type-controller
+      operationId: updateType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeEntity'
+        required: true
+      responses:
+        "200":
+          description: OK
+    post:
+      tags:
+      - type-controller
+      operationId: addType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /api/story:
+    get:
+      tags:
+      - story-controller
+      operationId: getAll_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StoryDto'
+    put:
+      tags:
+      - story-controller
+      operationId: updateStory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoryEntity'
+        required: true
+      responses:
+        "200":
+          description: OK
+    post:
+      tags:
+      - story-controller
+      operationId: addStory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoryRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /api/type/{id}:
+    get:
+      tags:
+      - type-controller
+      operationId: getType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TypeDto'
+    delete:
+      tags:
+      - type-controller
+      operationId: deleteType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/type/response/{id}:
+    get:
+      tags:
+      - type-controller
+      summary: Get a list of news of a specific type
+      description: Possibility to get a list of news of with type id.
+      operationId: getTypeResponse
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TypeResponse'
+  /api/type/active:
+    get:
+      tags:
+      - type-controller
+      summary: Geе list of all types of news
+      description: Possibility to get the list of all types of news
+      operationId: getTypeActive
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypeDto'
+  /api/story/{id}:
+    get:
+      tags:
+      - story-controller
+      operationId: getStory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StoryDto'
+    delete:
+      tags:
+      - story-controller
+      operationId: deleteStory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/story/response:
+    get:
+      tags:
+      - story-controller
+      summary: Get a list of all news and type
+      description: Possibility to get a list of all news with types
+      operationId: getStoryResponse
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StoryResponse'
+components:
+  schemas:
+    StoryEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        brief:
+          type: string
+        description:
+          type: string
+        typeId:
+          type: integer
+          format: int64
+    TypeEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        color:
+          type: string
+        stories:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoryEntity'
+    TypeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        color:
+          type: string
+    StoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        brief:
+          type: string
+        description:
+          type: string
+        typeId:
+          type: integer
+          format: int64
+    TypeDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        color:
+          type: string
+    StoryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        brief:
+          type: string
+        description:
+          type: string
+        typeId:
+          type: integer
+          format: int64
+    TypeResponse:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/TypeDto'
+        stories:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoryDto'
+    StoryResponse:
+      type: object
+      properties:
+        story:
+          $ref: '#/components/schemas/StoryDto'
+        typeOfStory:
+          $ref: '#/components/schemas/TypeDto'
